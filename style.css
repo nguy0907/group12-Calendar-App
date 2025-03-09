@@ -24,3 +24,8 @@ li{
 td{
     margin: 2rem;
 }
+
+#tasksDate{
+    border-style: solid;
+    max-width: 150px;
+}
