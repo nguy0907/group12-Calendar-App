@@ -3,9 +3,13 @@
     height: 200px;
 }
 
-ul{
+#menu{
     list-style: none;
     display: flex;
+}
+
+#calenderOption{
+    list-style: none;  
 }
 
 li{
