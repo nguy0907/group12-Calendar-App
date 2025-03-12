@@ -10,47 +10,61 @@
 </head>
 <body>
     <!-- Menu -->
-    <ul id="menu">
-        <li>Time </li>
-        <li>Folder </li>
-        <li>Notification </li>
-    </ul>
+      <nav class="navbar">
+        <button onclick="showPage('mainPage')">Main Page</button>
+        <button onclick="showPage('filesPage')">Files</button>
+        <button onclick="showPage('notificationsPage')">Notifications</button>
+      </nav>
 
-    <!-- Post Form -->
-    <form>
-        <input type="text" id="fillInPost">
-    </form>
+    <div class="container">
+    <!-- Left Column: Post Feed -->
+      <div class="post-feed">
+        <!-- Post Creation Form -->
+        <form class="post-form" id="postForm">
+          <input type="text" id="postTitle" placeholder="Title..." required>
+          <textarea id="fillInPost" placeholder="Write something..." rows="3" required></textarea>
+          <button type="submit">Post</button>
+        </form>
 
     <!-- Posts -->
-    <div class="card" style="width: 25rem;">
-        <div class="card-body">
+    <div class="card">
           <h5 class="card-title">"Quote"</h5>
           <h6 class="card-subtitle mb-2 text-body-secondary">Title</h6>
           <p class="card-text">Description: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <div class="post-actions">
+            <button>👍</button>
+            <button>💬 Comment</button>
+          </div>
+        </div>
  
+      <div class="card">
+          <h5 class="card-title">Quote"</h5>
+          <h6 class="card-subtitle">Title</h6>
+          <p class="card-text">Another example text...</p>
+          <div class="post-actions">
+            <button>👍</button>
+            <button>💬 Comment</button>
+          </div>
+        </div>
+        <div class="card">
+          <h5 class="card-title">Quote"</h5>
+          <h6 class="card-subtitle">Title</h6>
+          <p class="card-text">Another example text...</p>
+          <div class="post-actions">
+            <button>👍</button>
+            <button>💬 Comment</button>
+          </div>
+        </div>
+        <div class="card">
+          <h5 class="card-title">Quote"</h5>
+          <h6 class="card-subtitle">Title</h6>
+          <p class="card-text">Another example text...</p>
+          <div class="post-actions">
+            <button>👍</button>
+            <button>💬 Comment</button>
+          </div>
         </div>
       </div>
-      <div class="card" style="width: 25rem;">
-        <div class="card-body">
-          <h5 class="card-title">"Quote"</h5>
-          <h6 class="card-subtitle mb-2 text-body-secondary">Title</h6>
-          <p class="card-text">Description: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
- 
-        </div>
-      </div>
-      <div class="card" style="width: 25rem;">
-        <div class="card-body">
-          <h5 class="card-title">"Quote"</h5>
-          <h6 class="card-subtitle mb-2 text-body-secondary">Title</h6>
-          <p class="card-text">Description: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
- 
-        </div>
-      </div>
-      <div class="card" style="width: 25rem;">
-        <div class="card-body">
-          <h5 class="card-title">"Quote"</h5>
-          <h6 class="card-subtitle mb-2 text-body-secondary">Title</h6>
-          <p class="card-text">Description: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
  
         </div>
       </div>
@@ -61,8 +75,15 @@
         <input type="text">
        </div>
 
-      <!-- Calendar section -->
-       <table>
+      <!-- Middle Column: Calendar and Stats section -->
+    <aside class="calendar-section">
+        <div class="calendar-container">
+          <div class="calendar-header">
+            <button class="arrow left">&lt;</button>
+            <span>March 2025</span>
+            <button class="arrow right">&gt;</button>
+          </div>
+       <table class="calendar">
         <tr>
           <th>S</th>
           <th>M</th>
@@ -112,21 +133,85 @@
           <td>29</td>
           <td>30</td>
           <td>31</td>
-   
        </table>
-
-       <ul id="calenderOption">
-        <li>Update Feed </li>
-        <li>New Tean Calendar </li>
-        <li>Group Files </li>
-        <li>Progres Report</li>
-    </ul>
-
-    <!-- Tasks Date -->
-     <div id="tasksDate">
-      <p>11:30AM - 12:30PM</p>
-      <p>Design Review</p>
-      <p>Conference Room</p>
-     </div>
+</div>
+        
+        <!-- Dropdown Menu -->
+        <div class="dropdown">
+          <button>Options</button>
+          <div class="dropdown-content">
+            <a href="#">Update Feed</a>
+            <a href="#">View Team Calendar</a>
+            <a href="#">Group Files</a>
+            <a href="#">Progress Report</a>
+          </div>
+        </div>
+    
+        <!-- Stats Preview -->
+        <div class="stats-preview">
+          <p>Task Completion: 80%</p>
+          <p>Upcoming Deadlines: 3</p>
+        </div>
+      </aside>
+    
+      <!-- Right Column: Scrollable Task Sidebar -->
+      <aside class="tasks-sidebar">
+        <h4>Upcoming Tasks</h4>
+        <div class="task">
+          <p>11:30 AM - 12:30 PM</p>
+          <p>Design Review</p>
+          <p>Conference Room</p>
+        </div>
+        <div class="task">
+          <p>2:00 PM - 3:00 PM</p>
+          <p>Client Meeting</p>
+        </div>
+        <div class="task">
+          <p>11:30 AM - 12:30 PM</p>
+          <p>Design Review</p>
+          <p>Conference Room</p>
+        </div>
+        <div class="task">
+          <p>2:00 PM - 3:00 PM</p>
+          <p>Client Meeting</p>
+        </div>
+        <div class="task">
+          <p>11:30 AM - 12:30 PM</p>
+          <p>Design Review</p>
+          <p>Conference Room</p>
+        </div>
+        <div class="task">
+          <p>2:00 PM - 3:00 PM</p>
+          <p>Client Meeting</p>
+        </div>
+        <div class="task">
+          <p>11:30 AM - 12:30 PM</p>
+          <p>Design Review</p>
+          <p>Conference Room</p>
+        </div>
+        <div class="task">
+          <p>2:00 PM - 3:00 PM</p>
+          <p>Client Meeting</p>
+        </div>
+        <div class="task">
+          <p>11:30 AM - 12:30 PM</p>
+          <p>Design Review</p>
+          <p>Conference Room</p>
+        </div>
+        <div class="task">
+          <p>2:00 PM - 3:00 PM</p>
+          <p>Client Meeting</p>
+        </div>
+        <div class="task">
+          <p>11:30 AM - 12:30 PM</p>
+          <p>Design Review</p>
+          <p>Conference Room</p>
+        </div>
+        <div class="task">
+          <p>2:00 PM - 3:00 PM</p>
+          <p>Client Meeting</p>
+        </div>
+      </aside>
+    </div>
 </body>
 </html>
