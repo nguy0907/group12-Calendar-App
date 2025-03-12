@@ -1,31 +1,197 @@
-#fillInPost{
-    width: 400px;
-    height: 200px;
-}
-
-#menu{
-    list-style: none;
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  .navbar {
     display: flex;
-}
-
-#calenderOption{
-    list-style: none;  
-}
-
-li{
-    margin-right: 4rem;
-}
-
-#days{
- width: auto;
- margin:auto;
-}
-
-td{
-    margin: 2rem;
-}
-
-#tasksDate{
-    border-style: solid;
-    max-width: 150px;
-}
+    justify-content: space-around;
+    align-items: center;
+    background: #f3eeff;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  /* Main Container: 3 Columns */
+  .container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr; /* Posts | Calendar | Tasks */
+    gap: 20px;
+    padding: 20px;
+    height: 100vh;
+  }
+  
+  /* Left Column - Post Feed */
+  .post-form {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+  }
+  .post-form input,
+  .post-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  .post-form textarea {
+    resize: none;
+    height: 80px;
+  }
+  .post-form button {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .post-formbutton: hover {
+    background: #0056b3;
+  }
+  .post-preview {
+    background: #f8f9fa;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border-left: 5px solid #87B5EF;
+  }
+  .post-feed {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-y: auto;
+    height: calc(100vh - 40px);
+  }
+  
+  .card {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Middle Column - Calendar & Stats */
+  .calendar-section {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    height: auto;
+  }
+  
+  /* Calendar Styling */
+  .calendar-container {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .calendar table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .calendar th,
+  .calendar td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .calendar th {
+    background: #f1f1f1;
+  }
+  
+  /* Dropdown Menu */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown button {
+    background: #87B5EF;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background: white;
+    min-width: 150px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+  }
+  
+  .dropdown-content a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+  }
+  
+  .dropdown-content a:hover {
+    background: #f1f1f1;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  .stats-preview {
+    text-align: center;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    position: relative;
+  }
+  #taskChart {
+    display: block;
+    margin: 10px auto;
+  }
+  
+  #taskPercentage {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  /* Right Column - Scrollable Task Sidebar */
+  .tasks-sidebar {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+  
+  .task {
+    background: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
