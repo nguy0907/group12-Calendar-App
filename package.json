@@ -1,0 +1,23 @@
+{
+  "name": "group12-calendar-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nguy0907/group12-Calendar-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nguy0907/group12-Calendar-App/issues"
+  },
+  "homepage": "https://github.com/nguy0907/group12-Calendar-App#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
