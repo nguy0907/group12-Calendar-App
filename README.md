@@ -4,7 +4,7 @@ Contained in this README is the breakdown of the project structure.
 ## How to clone 
 First, go into an empty folder on your computer somewhere.
 ```
-git clone https://github.com/nguy0907/group12-Calendar-App.git`
+git clone https://github.com/nguy0907/group12-Calendar-App.git
 ```
 
 ## Node Server
