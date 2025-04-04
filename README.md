@@ -3,7 +3,9 @@ Contained in this README is the breakdown of the project structure.
 
 ## How to clone 
 First, go into an empty folder on your computer somewhere.
-`git clone https://github.com/nguy0907/group12-Calendar-App.git`
+```
+git clone https://github.com/nguy0907/group12-Calendar-App.git`
+```
 
 ## Node Server
 This project uses Node. In order to install node, please: 
@@ -16,8 +18,9 @@ This project uses Node. In order to install node, please:
 This project requires a MySQL server running on the same machine (localhost).
 1. Go to: https://dev.mysql.com/downloads/mysql/
 2. Download MySQL Community Server, 9.2.0 Innovation version
-3. Run the DDL file in the project first on the new mysql installation
-4. Run the DML file once the DDL file has succeeded
+3. Install the program, then connect to the database as the initial root user
+4. Run the DDL file in the project first on the new mysql installation
+5. Run the DML file once the DDL file has succeeded
 
 ## How to Run
 Once both Node and MySQL have been installed and the MySQL server is running, in your terminal, open the repository folder where server.js is located, and run in your terminal:
