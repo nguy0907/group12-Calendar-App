@@ -154,6 +154,26 @@ app.post('/socialposts/post', (req, res) => {
     });
 });
 
+// post Route
+app.post('/calendartasks/createtask', (req, res) => {
+    console.log(req.body);
+
+    if(!CheckAuthentication(req.session.user)) {
+        return res.status(401).send('Please login again.');
+    }
+
+    const query = 'INSERT INTO calendartasks (AuthorID, Title, Description, Date) VALUES (?, ?, ?, ?)';
+    const values = [req.session.user.UserID, req.body.title, req.body.description, req.body.date];
+
+    db.query(query, values, async (err, result) => {
+        if (err) {
+            console.error('Database query error:', err.message);
+            return res.status(500).send('Server error');
+        }
+        res.status(200).send('Calendar Task added successfully'); // Send a success response
+    });
+});
+
 // Start Server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
