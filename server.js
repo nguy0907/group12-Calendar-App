@@ -258,9 +258,5 @@ app.listen(PORT, () => {
 });
 
 function CheckAuthentication(userSession) {
-    if (!userSession) {
-        return false;
-    } else {
-        return true
-    }
+    return !! userSession; // Return true if userSession exists, false otherwise
 }
