@@ -78,7 +78,9 @@ app.post('/logout', (req, res) => {
 
 // Protected Route
 app.get('/dashboard', (req, res) => {
-    CheckAuthentication(req.session.user);
+    if(!CheckAuthentication(req.session.user)) {
+        return res.status(401).send('Please login again.');
+    }
     res.send(`Welcome ${req.session.user.UserName}, you are logged in! Your user ID is ${req.session.user.UserID}.`);
 });
 
@@ -234,6 +236,22 @@ app.delete('/calendartasks/removetask/:id', (req, res) => {
         }
 
         res.status(200).send('Calendar Task updated successfully'); // Send a success response
+    });
+});
+
+// Create New User
+app.post('/users/newuser', (req, res) => {
+    console.log(req.body);
+
+    const query = 'INSERT INTO users (UserName, Email, Password) VALUES (?, ?, ?)';
+    const values = [req.body.username, req.body.email, req.body.password];
+
+    db.query(query, values, async (err, result) => {
+        if (err) {
+            console.error('Database query error:', err.message);
+            return res.status(500).send('Server error');
+        }
+        res.status(200).send('Data added successfully'); // Send a success response
     });
 });
 
