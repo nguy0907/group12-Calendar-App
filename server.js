@@ -134,7 +134,7 @@ app.get('/socialposts', (req, res) => {
     });
 });
 
-// post Route
+// Create Social Post Route
 app.post('/socialposts/post', (req, res) => {
     console.log(req.body);
 
@@ -154,7 +154,7 @@ app.post('/socialposts/post', (req, res) => {
     });
 });
 
-// post Route
+// Create Calendar Task Route
 app.post('/calendartasks/createtask', (req, res) => {
     console.log(req.body);
 
@@ -173,6 +173,70 @@ app.post('/calendartasks/createtask', (req, res) => {
         res.status(200).send('Calendar Task added successfully'); // Send a success response
     });
 });
+
+// Update Calendar Task Route
+// This route updates a task in the calendar tasks table
+app.put('/calendartasks/edittask/:id', (req, res) => {
+    console.log(req.body);
+
+    // Check if the user is authenticated
+    if (!CheckAuthentication(req.session.user)) {
+        return res.status(401).send('Please login again.');
+    }
+
+    const query = `UPDATE calendartasks SET Title = ?, Description = ?, Date = ? WHERE CTID = ? AND AuthorID = ?`;
+    
+    const values = [
+        req.body.title, 
+        req.body.description, 
+        req.body.date, 
+        req.params.id,       // TaskID from the URL parameter
+        req.session.user.UserID // AuthorID from the session
+    ];
+
+    db.query(query, values, (err, result) => {
+        if (err) {
+            console.error('Database query error:', err.message);
+            return res.status(500).send('Server error');
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).send('Task not found or unauthorized'); // Handle no matching task
+        }
+
+        res.status(200).send('Calendar Task updated successfully'); // Send a success response
+    });
+});
+
+// Delete Calendar Task Route
+// This route updates a task in the calendar tasks table
+app.delete('/calendartasks/removetask/:id', (req, res) => {
+    // Check if the user is authenticated
+    if (!CheckAuthentication(req.session.user)) {
+        return res.status(401).send('Please login again.');
+    }
+
+    const query = `DELETE FROM calendartasks WHERE CTID = ? AND AuthorID = ?`;
+    
+    const values = [
+        req.params.id,       // TaskID from the URL parameter
+        req.session.user.UserID // AuthorID from the session
+    ];
+
+    db.query(query, values, (err, result) => {
+        if (err) {
+            console.error('Database query error:', err.message);
+            return res.status(500).send('Server error');
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).send('Task not found or unauthorized'); // Handle no matching task
+        }
+
+        res.status(200).send('Calendar Task updated successfully'); // Send a success response
+    });
+});
+
 
 // Start Server
 app.listen(PORT, () => {
