@@ -114,10 +114,21 @@ app.get('/calendartasks', (req, res) => {
         return res.status(401).send('Please login again.');
     }
     
-    const query = 'SELECT * FROM CalendarTasks WHERE AuthorID = ?';
+    
+    let query = 'SELECT * FROM CalendarTasks WHERE AuthorID = ?';
     const authorID = req.session.user.UserID; // Get AuthorID from session
+    const { date } = req.query; // Extract userId from query parameters
 
-    db.query(query, authorID, (err, results) => {
+
+    const queryParams = [authorID];
+
+    // If date is provided, filter results
+    if (date) {
+        query += ' AND DATE(date) = ?';
+        queryParams.push(date);
+    }
+
+    db.query(query, queryParams, (err, results) => {
         if (err) {
             console.error('Error fetching calendar tasks:', err.message);
             res.status(500).send('Error fetching calendar tasks');
