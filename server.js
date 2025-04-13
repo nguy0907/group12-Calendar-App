@@ -36,6 +36,10 @@ app.use(session({
     }
 }));
 
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
 // Login Route
 app.post('/login', (req, res) => {
     console.log(req.body);
@@ -57,7 +61,7 @@ app.post('/login', (req, res) => {
 
         if (isPasswordValid) {
             req.session.user = user; // Save user data in session
-            userID = user.UserID; // Assuming UserID is the primary key in Users table
+            userID = user.UserID; // Assuming UserID is the primary key in Users table            
             res.redirect('/dashboard'); // Redirect to a protected page
         } else {
             res.status(401).send('Invalid username or password');
@@ -65,6 +69,20 @@ app.post('/login', (req, res) => {
     });
 });
 
+// Route to retrieve session data (for frontend)
+app.get('/session', (req, res) => {
+    if (req.session && req.session.user) {
+        const userInfo = {
+            UserName: req.session.user.UserName, // Include only the user's name
+            userID: req.session.user.UserID,     // Include the user's ID
+            email: req.session.user.Email,                    // Add additional custom fields
+          };
+      
+          res.json(userInfo);
+    } else {
+      res.status(401).json({ message: 'No active session' });
+    }
+  });
 
 // Logout Route
 app.post('/logout', (req, res) => {
@@ -81,7 +99,8 @@ app.get('/dashboard', (req, res) => {
     if(!CheckAuthentication(req.session.user)) {
         return res.status(401).send('Please login again.');
     }
-    res.send(`Welcome ${req.session.user.UserName}, you are logged in! Your user ID is ${req.session.user.UserID}.`);
+    // res.send(`Welcome ${req.session.user.UserName}, you are logged in! Your user ID is ${req.session.user.UserID}.`);
+    res.status(200).sendFile(path.join(__dirname, 'public', 'success.html'));
 });
 
 app.get('/', (req, res) => {

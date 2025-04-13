@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+</head>
+<body>
+  <h1>Welcome, <span id="userName">Guest</span>!</h1>
+
+  <script>
+    async function fetchSessionData() {
+      try {
+        const response = await fetch('/session'); // we await the response from the server
+        if (response.ok) {
+          const userData = await response.json(); // then we await the data to be parsed as JSON
+          document.getElementById('userName').textContent = userData.UserName; // Display the username
+        } else {
+          console.error('Failed to fetch session data:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching session data:', error);
+      }
+    }
+
+    // Fetch session data when the page loads
+    fetchSessionData();
+  </script>
+</body>
+</html>
