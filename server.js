@@ -32,7 +32,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: {
-        maxAge: 30 * 60 * 1000 // Session expires after 30 minutes (in milliseconds)
+        maxAge: 15 * 60 * 1000 // Session expires after 15 minutes (in milliseconds)
     }
 }));
 
@@ -57,6 +57,7 @@ app.post('/login', (req, res) => {
 
         if (isPasswordValid) {
             req.session.user = user; // Save user data in session
+            userID = user.UserID; // Assuming UserID is the primary key in Users table
             res.redirect('/dashboard'); // Redirect to a protected page
         } else {
             res.status(401).send('Invalid username or password');
@@ -66,22 +67,19 @@ app.post('/login', (req, res) => {
 
 
 // Logout Route
-app.get('/logout', (req, res) => {
+app.post('/logout', (req, res) => {
     req.session.destroy((err) => {
       if (err) {
         return res.status(500).send('Failed to destroy session');
       }
-      res.redirect('/dashboard');
+      res.send('Logged out successfully');
     });
   });
 
 // Protected Route
 app.get('/dashboard', (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).send('Please login to access this page');
-    }
-
-    res.send(`Welcome ${req.session.user.UserName}, you are logged in!`);
+    CheckAuthentication(req.session.user);
+    res.send(`Welcome ${req.session.user.UserName}, you are logged in! Your user ID is ${req.session.user.UserID}.`);
 });
 
 app.get('/', (req, res) => {
@@ -136,7 +134,35 @@ app.get('/socialposts', (req, res) => {
     });
 });
 
+// post Route
+app.post('/socialposts/post', (req, res) => {
+    console.log(req.body);
+
+    if(!CheckAuthentication(req.session.user)) {
+        return res.status(401).send('Please login again.');
+    }
+
+    const query = 'INSERT INTO socialposts (AuthorID, PostTitle, PostContent, DateCreated) VALUES (?, ?, ?, ?)';
+    const values = [req.session.user.UserID, req.body.posttitle, req.body.content, req.body.createdAt];
+
+    db.query(query, values, async (err, result) => {
+        if (err) {
+            console.error('Database query error:', err.message);
+            return res.status(500).send('Server error');
+        }
+        res.status(200).send('Data added successfully'); // Send a success response
+    });
+});
+
 // Start Server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+function CheckAuthentication(userSession) {
+    if (!userSession) {
+        return false;
+    } else {
+        return true
+    }
+}
