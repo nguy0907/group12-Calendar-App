@@ -91,18 +91,14 @@ app.get('/', (req, res) => {
 // API Route to Get Calendar Tasks
 app.get('/calendartasks', (req, res) => {
 
-    const { authorID } = req.query; // Extract userId from query parameters
-    
-    let query = 'SELECT * FROM CalendarTasks';
-    const queryParams = [];
-
-    // If userId is provided, filter results
-    if (authorID) {
-        query += ' WHERE AuthorID = ?';
-        queryParams.push(authorID);
+    if(!CheckAuthentication(req.session.user)) {
+        return res.status(401).send('Please login again.');
     }
+    
+    const query = 'SELECT * FROM CalendarTasks WHERE AuthorID = ?';
+    const authorID = req.session.user.UserID; // Get AuthorID from session
 
-    db.query(query, queryParams, (err, results) => {
+    db.query(query, authorID, (err, results) => {
         if (err) {
             console.error('Error fetching calendar tasks:', err.message);
             res.status(500).send('Error fetching calendar tasks');
