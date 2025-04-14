@@ -1,12 +1,7 @@
-{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-  }
+
   .navbar {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     background: #f3eeff;
     padding: 10px 0;
@@ -57,9 +52,8 @@
     border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background 0.3s;
   }
-  .post-formbutton: hover {
+  .post-formbutton:hover {
     background: #0056b3;
   }
   .post-preview {
