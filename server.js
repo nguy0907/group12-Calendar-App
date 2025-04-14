@@ -100,11 +100,16 @@ app.get('/dashboard', (req, res) => {
         return res.status(401).send('Please login again.');
     }
     // res.send(`Welcome ${req.session.user.UserName}, you are logged in! Your user ID is ${req.session.user.UserID}.`);
-    res.status(200).sendFile(path.join(__dirname, 'public', 'success.html'));
+    res.status(200).sendFile(path.join(__dirname, 'public', 'main.html'));
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'main.html'));
+
+    if(!CheckAuthentication(req.session.user)) {
+        res.redirect('/login');
+    } else {
+        res.sendFile(path.join(__dirname, 'public', 'main.html'));
+    }
 });
 
 // API Route to Get Calendar Tasks

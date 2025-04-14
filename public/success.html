@@ -14,7 +14,7 @@
         const response = await fetch('/session'); // we await the response from the server
         if (response.ok) {
           const userData = await response.json(); // then we await the data to be parsed as JSON
-          document.getElementById('userName').textContent = userData.UserName; // Display the username
+          document.getElementById('username').textContent = userData.UserName; // Display the username
         } else {
           console.error('Failed to fetch session data:', response.status);
         }

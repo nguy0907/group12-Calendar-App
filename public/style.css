@@ -1,7 +1,23 @@
+nav li {
+  list-style: none;
+  display: inline-block;
+}
+nav ul {
+  display: inline-block;
+}
+nav div {
+  display: inline-block;
+}
 
+nav p {
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  padding: 10px;
+}
   .navbar {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
     background: #f3eeff;
     padding: 10px 0;
