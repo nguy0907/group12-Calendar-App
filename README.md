@@ -41,7 +41,7 @@ This command will install all the required packages the backend server depends o
 
 `node server.js`
 
-From here, you can access the routes via http://localhost:3000/routenames.
+From here, you can access the application via http://localhost:3000/
 
 ## Application Structure
 
@@ -56,6 +56,7 @@ As these contain IDE configuration settings, application package data, and git r
 
 ### public folder
 The public folder contains the HTML and CSS pages to be served as the frontend.
+mainPage.js in the public folder contains the javascript code for main.html. Other html pages have their scripts embedded.
 
 ### package/package-lock
 The package.json and package-lock.json files contain configuration data for the application and a list of package dependencies required 
