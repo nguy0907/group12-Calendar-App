@@ -19,7 +19,7 @@ async function fetchSessionData() {
     }
   }
 
-async function fetchSocialPosts(userID) {
+async function fetchSocialPosts() {
   try {
     // Calls the social posts API with a query parameter for the author/user id
     const response = await fetch(`/socialposts`);
@@ -37,18 +37,119 @@ async function fetchSocialPosts(userID) {
 
 async function fetchCalendarTasks() {
   try {
-    // Calls the calendar tasks API. The server automatically filters tasks based on session.
-    const response = await fetch('/calendartasks');
+    const response = await fetch("/calendartasks");
     if (response.ok) {
-      const calendarTasks = await response.json();
-      console.log('Calendar Tasks:', calendarTasks);
-      return calendarTasks;
+      const tasks = await response.json();
+      return tasks;
     } else {
-      console.error('Failed to fetch calendar tasks:', response.status);
+      console.error("Error fetching tasks, status:", response.status);
     }
   } catch (error) {
-    console.error('Error fetching calendar tasks:', error);
+    console.error("Error fetching tasks:", error);
   }
+}
+
+async function deleteCalendarTask(taskID) {
+  try {
+    const response = await fetch(`/calendartasks/removetask/${taskID}`, {
+      method: "DELETE"
+    });
+    if (response.ok) {
+      return true; // Indicates successful deletion
+    } else {
+      console.error('Failed to delete task, status:', response.status);
+      return false;
+    }
+  } catch (error) {
+    console.error('Error deleting task:', error);
+    return false;
+  }
+}
+
+function renderSocialPosts(posts) {
+  const container = document.getElementById("socialPosts");
+  container.innerHTML = ""; // Clear any existing posts
+
+  posts.forEach(post => {
+    // Create a container for each post
+    const postDiv = document.createElement("div");
+    postDiv.classList.add("post-item");
+    postDiv.style.border = "1px solid #ccc";
+    postDiv.style.padding = "10px";
+    postDiv.style.marginBottom = "10px";
+    postDiv.style.background = "#f9f9f9";
+
+    // Insert post details
+    postDiv.innerHTML = `
+      <h3>${post.PostTitle}</h3>
+      <p>${post.PostContent}</p>
+      <p><small>Posted on: ${new Date(post.DateCreated).toLocaleString()}</small></p>
+    `;
+
+    container.appendChild(postDiv);
+  });
+}
+
+function renderCalendarTasks(tasks) {
+  const container = document.getElementById("calendarTasks");
+  console.log(container);
+  container.innerHTML = ""; // Clear any existing tasks
+
+  tasks.forEach(task => {
+    // Create a container for each task
+    const taskDiv = document.createElement("div");
+    taskDiv.classList.add("task-item");
+    taskDiv.style.border = "1px solid #ccc";
+    taskDiv.style.padding = "10px";
+    taskDiv.style.marginBottom = "10px";
+    
+    // Insert task details in the task item
+    taskDiv.innerHTML = `
+      <h3>${task.Title}</h3>
+      <p>${task.Description}</p>
+      <p><small>${new Date(task.Date).toLocaleString()}</small></p>
+    `;
+
+    // Create delete button
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete Task";
+    deleteBtn.style.marginTop = "5px";
+    deleteBtn.style.padding = "5px 10px";
+    deleteBtn.style.cursor = "pointer";
+
+    // Create edit button
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Edit Task";
+    editBtn.style.marginTop = "5px";
+    editBtn.style.padding = "5px 10px";
+    editBtn.style.cursor = "pointer";
+    
+    // Add click event to perform deletion
+    deleteBtn.addEventListener("click", async () => {
+      const confirmed = confirm(`Are you sure you want to delete "${task.Title}"?`);
+      if (confirmed) {
+        const success = await deleteCalendarTask(task.CTID);
+        if (success) {
+          // Remove the task from the UI, or re-fetch tasks from the server
+          taskDiv.remove();
+        } else {
+          alert("There was an error deleting the task.");
+        }
+      }
+    });
+
+
+    // Add click event for editing
+    editBtn.addEventListener("click", () => {
+      // Redirect to the edit page with taskID as a query parameter
+      window.location.href = `/calendartasks/edittask?taskid=${task.CTID}`;
+    });
+
+    // Append the delete button to the task container
+    taskDiv.appendChild(deleteBtn);
+    taskDiv.appendChild(editBtn);
+    container.appendChild(taskDiv);
+  });
 }
 
 // Main routine to sequentially get session data, social posts, and calendar tasks.
@@ -61,18 +162,21 @@ async function initializeDashboard() {
     // Display session information in the page
     document.getElementById('userInfo').innerHTML = `<pre>${JSON.stringify(userData, null, 2)}</pre>`;
     
-    // 2. Fetch social posts
-    const posts = await fetchSocialPosts(userData.userID);
+    // 2. Fetch and render social posts
+    const posts = await fetchSocialPosts();
     if (posts) {
-      document.getElementById('socialPosts').innerHTML = `<pre>${JSON.stringify(posts, null, 2)}</pre>`;
+      renderSocialPosts(posts);
+      //document.getElementById('socialPosts').innerHTML = `<pre>${JSON.stringify(posts, null, 2)}</pre>`;
     } else {
       document.getElementById('socialPosts').textContent = 'No social posts available';
     }
     
-    // 3. Fetch calendar tasks
+    // 3. Fetch and render calendar tasks
     const tasks = await fetchCalendarTasks();
+    console.log(tasks);
     if (tasks) {
-      document.getElementById('calendarTasks').innerHTML = `<pre>${JSON.stringify(tasks, null, 2)}</pre>`;
+      console.log(tasks);
+      renderCalendarTasks(tasks);
     } else {
       document.getElementById('calendarTasks').textContent = 'No tasks available';
     }

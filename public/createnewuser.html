@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Registration</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    h2 {
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .message {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>User Registration</h2>
+    <form id="registerForm">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter username" required>
+      </div>
+      <div class="form-group">
+         <label for="email">Email:</label>
+         <input type="email" id="email" name="email" placeholder="Enter email" required>
+      </div>
+      <div class="form-group">
+         <label for="password">Password:</label>
+         <input type="password" id="password" name="password" placeholder="Enter password" required>
+      </div>
+      <button type="submit">Register</button>
+    </form>
+    <div id="message" class="message"></div>
+    <a href="/login">Click here to login.</a>
+  </div>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      
+      // Retrieve the form values
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      // Build a payload matching the expected JSON structure
+      const payload = { username, email, password };
+      
+      try {
+        const response = await fetch('/users/newuser', {
+          method: 'POST',
+          headers: {
+             'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const messageDiv = document.getElementById('message');
+        if (response.ok) {
+          messageDiv.textContent = 'Registration successful!';
+          // Optionally, clear the form or redirect the user (e.g., to a login page)
+          document.getElementById('registerForm').reset();
+        } else {
+          messageDiv.textContent = 'Error registering user: ' + response.status;
+        }
+      } catch (error) {
+         console.error('Error registering user:', error);
+         document.getElementById('message').textContent = 'Error processing request.';
+      }
+    });
+  </script>
+</body>
+</html>

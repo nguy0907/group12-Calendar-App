@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Create New Calendar Task</title>
+  <title>Edit Calendar Task</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: Arial, sans-serif;
       padding: 20px;
       background-color: #f0f2f5;
     }
@@ -23,8 +23,8 @@
     }
     label {
       display: block;
-      margin-bottom: 5px;
       font-weight: bold;
+      margin-bottom: 5px;
     }
     input[type="text"],
     input[type="date"],
@@ -56,61 +56,82 @@
 </head>
 <body>
   <div class="form-container">
-    <h2>Create New Calendar Task</h2>
-    <form id="calendarTaskForm">
+    <h2>Edit Calendar Task</h2>
+    <form id="editTaskForm">
       <div class="form-group">
         <label for="title">Task Title:</label>
         <input type="text" id="title" name="title" placeholder="Enter task title" required>
       </div>
       <div class="form-group">
         <label for="description">Task Description:</label>
-        <textarea id="description" name="description" placeholder="Describe your task" rows="4" required></textarea>
+        <textarea id="description" name="description" placeholder="Enter task description" rows="4" required></textarea>
       </div>
       <div class="form-group">
         <label for="date">Task Date:</label>
         <input type="date" id="date" name="date" required>
       </div>
-      <button type="submit">Create Task</button>
+      <button type="submit">Update Task</button>
     </form>
     <div id="message" class="message"></div>
     <a href="/">Click here to return to the main page.</a>
   </div>
 
   <script>
-    document.getElementById('calendarTaskForm').addEventListener('submit', async function(event) {
-      event.preventDefault(); // Prevent the default form submission
+    // Get the task ID from the URL query string
+    const urlParams = new URLSearchParams(window.location.search);
+    const taskID = urlParams.get('taskid');
+
+    // Optionally, you could fetch the current task details here to pre-populate the form.
+    // For example:
+    async function loadTaskDetails(taskID) {
+      try {
+        const response = await fetch(`/calendartasks?taskid=${taskID}`);
+        console.log(response);
+        if (response.ok) {
+          const taskresponse = await response.json();
+          const task = taskresponse[0];
+          console.log(task);
+          document.getElementById('title').value = task.Title;
+          document.getElementById('description').value = task.Description;
+          // Format the task date as needed (assuming "YYYY-MM-DD")
+          document.getElementById('date').value = task.Date.split('T')[0];
+        }
+      } catch (error) {
+        console.error('Error fetching task details:', error);
+      }
+    }
+    
+    loadTaskDetails(taskID);
+
+    const editForm = document.getElementById('editTaskForm');
+    editForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
       
-      // Retrieve input values from the form
       const title = document.getElementById('title').value;
       const description = document.getElementById('description').value;
       const date = document.getElementById('date').value;
       
-      // Build payload in the structure expected by your backend
-      const payload = {
-        title,
-        description,
-        date
-      };
-
+      // Prepare the payload to send to the backend
+      const payload = { title, description, date };
+      
       try {
-        const response = await fetch('/calendartasks/createtask', {
-          method: 'POST',
+        const response = await fetch(`/calendartasks/edittask/${taskID}`, {
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(payload)
         });
-
         const messageDiv = document.getElementById('message');
         if (response.ok) {
-          messageDiv.textContent = 'Calendar task created successfully!';
-          document.getElementById('calendarTaskForm').reset(); // Clear the form upon success
+          messageDiv.textContent = 'Calendar task updated successfully!';
+          // Optionally, redirect back to the dashboard or refresh the tasks list
         } else {
-          messageDiv.textContent = 'Error creating task: ' + response.status;
+          messageDiv.textContent = 'Error updating task: ' + response.status;
         }
       } catch (error) {
-        console.error('Error submitting task:', error);
-        document.getElementById('message').textContent = 'Error submitting task.';
+        console.error('Error updating task:', error);
+        document.getElementById('message').textContent = 'Error updating task.';
       }
     });
   </script>

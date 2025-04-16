@@ -123,6 +123,7 @@ app.get('/calendartasks', (req, res) => {
     let query = 'SELECT * FROM CalendarTasks WHERE AuthorID = ?';
     const authorID = req.session.user.UserID; // Get AuthorID from session
     const { date } = req.query; // Extract userId from query parameters
+    const { taskid } = req.query; // Extract taskID from query parameters
 
 
     const queryParams = [authorID];
@@ -131,6 +132,12 @@ app.get('/calendartasks', (req, res) => {
     if (date) {
         query += ' AND DATE(date) = ?';
         queryParams.push(date);
+    }
+
+    // If id is provided, filter results
+    if (taskid) {
+        query += ' AND CTID = ?';
+        queryParams.push(taskid);
     }
 
     db.query(query, queryParams, (err, results) => {
@@ -148,7 +155,11 @@ app.get('/socialposts', (req, res) => {
     
     const { authorID } = req.query; // Extract userId from query parameters
     
-    let query = 'SELECT * FROM SocialPosts';
+    let query = `
+        SELECT sp.SPID, sp.PostTitle, sp.PostContent, sp.DateCreated, sp.AuthorID, u.UserName 
+        FROM SocialPosts sp 
+        JOIN Users u ON sp.AuthorID = u.userID
+    `;
     const queryParams = [];
 
     // If userId is provided, filter results
@@ -159,8 +170,8 @@ app.get('/socialposts', (req, res) => {
 
     db.query(query, queryParams, (err, results) => {
         if (err) {
-            console.error('Error fetching calendar tasks:', err.message);
-            res.status(500).send('Error fetching calendar tasks');
+            console.error('Error fetching social posts:', err.message);
+            res.status(500).send('Error fetching social posts');
         } else {
             res.json(results);
         }
@@ -260,6 +271,15 @@ app.put('/calendartasks/edittask/:id', (req, res) => {
     });
 });
 
+// Edit Calendar Task Serving Route
+app.get('/calendartasks/edittask', (req, res) => {
+    // Check if the user is authenticated
+    if(!CheckAuthentication(req.session.user)) {
+        return res.status(401).send('Please login again.');
+    }
+    res.sendFile(path.join(__dirname, 'public', 'editcalendartask.html'));
+});
+
 // Delete Calendar Task Route
 // This route updates a task in the calendar tasks table
 app.delete('/calendartasks/removetask/:id', (req, res) => {
@@ -305,6 +325,10 @@ app.post('/users/newuser', (req, res) => {
     });
 });
 
+// New User Serving Route
+app.get('/users/newuser', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'createnewuser.html'));
+});
 
 // Start Server
 app.listen(PORT, () => {
