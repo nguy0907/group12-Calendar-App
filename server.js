@@ -187,10 +187,20 @@ app.post('/socialposts/post', (req, res) => {
     });
 });
 
+// Create Social Post Serving Route
+app.get('/socialposts/post', (req, res) => {
+    // Check if the user is authenticated
+    if(!CheckAuthentication(req.session.user)) {
+        return res.status(401).send('Please login again.');
+    }
+    res.sendFile(path.join(__dirname, 'public', 'newsocialpost.html'));
+});
+
 // Create Calendar Task Route
 app.post('/calendartasks/createtask', (req, res) => {
     console.log(req.body);
 
+    // Check if the user is authenticated
     if(!CheckAuthentication(req.session.user)) {
         return res.status(401).send('Please login again.');
     }
@@ -205,6 +215,15 @@ app.post('/calendartasks/createtask', (req, res) => {
         }
         res.status(200).send('Calendar Task added successfully'); // Send a success response
     });
+});
+
+// Create Calendar Task Serving Route
+app.get('/calendartasks/createtask', (req, res) => {
+    // Check if the user is authenticated
+    if(!CheckAuthentication(req.session.user)) {
+        return res.status(401).send('Please login again.');
+    }
+    res.sendFile(path.join(__dirname, 'public', 'newcalendartask.html'));
 });
 
 // Update Calendar Task Route

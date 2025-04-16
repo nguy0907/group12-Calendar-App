@@ -21,6 +21,16 @@ This project requires a MySQL server running on the same machine (localhost).
 3. Install the program, then connect to the database as the initial root user
 4. Run the DDL file in the project first on the new mysql installation
 5. Run the DML file once the DDL file has succeeded
+6. Create a new user called primary:
+`CREATE USER 'primary'@'localhost' IDENTIFIED BY '12345';`
+
+Then grant them all privs:
+`GRANT ALL PRIVILEGES ON *.* TO 'primary'@'localhost' WITH GRANT OPTION;`
+
+Then reload the privs:
+`FLUSH PRIVILEGES;`
+
+This is necessary because the application connects to user 'primary' with password 12345.
 
 ## How to Run
 Once both Node and MySQL have been installed and the MySQL server is running, in your terminal, open the repository folder where server.js is located, and run in your terminal:

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create New Social Post</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background-color: #f0f2f5;
+    }
+    .form-container {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      background: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      border: none;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .message {
+      margin-top: 20px;
+      padding: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Create New Social Post</h2>
+    <form id="socialPostForm">
+      <div class="form-group">
+        <label for="posttitle">Post Title:</label>
+        <input type="text" id="posttitle" name="posttitle" placeholder="Enter your post title" required>
+      </div>
+      <div class="form-group">
+        <label for="content">Post Content:</label>
+        <textarea id="content" name="content" placeholder="Write your post here" rows="4" required></textarea>
+      </div>
+      <button type="submit">Submit Post</button>
+    </form>
+    <div id="message" class="message"></div>
+  </div>
+
+  <script>
+    document.getElementById('socialPostForm').addEventListener('submit', async function(event) {
+      event.preventDefault(); // Prevent default form submission
+      
+      // Get the input values from the form
+      const postTitle = document.getElementById('posttitle').value;
+      const content = document.getElementById('content').value;
+
+      const currentDateTime = new Date();
+      // Format as YYYY-MM-DD HH:mm:ss for SQL Server
+      const createdAt = currentDateTime.toISOString().slice(0, 19).replace('T', ' ');
+      
+      // Build the payload to match your backend's expected JSON structure
+      const payload = {
+        posttitle: postTitle,
+        content: content,
+        createdAt: createdAt
+      };
+
+      try {
+        const response = await fetch('/socialposts/post', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const messageDiv = document.getElementById('message');
+        if (response.ok) {
+          messageDiv.textContent = 'Social post created successfully!';
+          // Optionally, clear the form fields after a successful submission
+          document.getElementById('socialPostForm').reset();
+        } else {
+          messageDiv.textContent = 'Error creating post: ' + response.status;
+        }
+      } catch (error) {
+        console.error('Error submitting post:', error);
+        document.getElementById('message').textContent = 'Error submitting post.';
+      }
+    });
+  </script>
+</body>
+</html>
