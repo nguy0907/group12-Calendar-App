@@ -83,6 +83,7 @@ function renderSocialPosts(posts) {
     postDiv.innerHTML = `
       <h3>${post.PostTitle}</h3>
       <p>${post.PostContent}</p>
+      <p>${post.UserName}</p>
       <p><small>Posted on: ${new Date(post.DateCreated).toLocaleString()}</small></p>
     `;
 
