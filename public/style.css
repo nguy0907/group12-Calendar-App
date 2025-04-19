@@ -55,6 +55,7 @@ nav {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1rem;
+    
   }
   .post-form textarea {
     resize: none;
@@ -108,6 +109,7 @@ nav {
   .calendar-container {
     text-align: center;
     margin-top: 10px;
+    
   }
   
   .calendar table {
@@ -125,6 +127,11 @@ nav {
   
   .calendar th {
     background: #f1f1f1;
+  }
+
+  .calendar{
+    text-align: center;
+    margin: auto;
   }
   
   /* Dropdown Menu */
@@ -204,4 +211,27 @@ nav {
     margin-bottom: 10px;
     border-radius: 5px;
   }
+
+  /* Homepage alignment */
+  #homepageBody{
+    text-align: center;
+  }
+
+
+  /* Menu Navigation */
+
+  #menu-Nav{
+text-align: center;
+  }
+  /* Login Style */
+
+  #loginBody{
+    text-align: center;
+    width: auto;
+ 
+  }
   
+  /* Register Style */
+#registerBody{
+  text-align: center;
+}
