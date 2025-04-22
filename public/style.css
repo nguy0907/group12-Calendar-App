@@ -248,3 +248,87 @@ text-align: center;
   width: auto;
 
 }
+/* Shared Form Styling for Post and Calendar Task Pages */
+.form-container {
+  max-width: 600px;
+  margin: 100px auto 20px auto; 
+  padding: 30px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+.form-group textarea {
+  resize: none;
+  min-height: 100px;
+}
+
+/* Form Submit Button */
+.form-container button {
+  padding: 10px 20px;
+  background-color: #87B5EF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+  background-color: #5a9be0;
+}
+
+/* Message Display Area */
+.message {
+  margin-top: 20px;
+  padding: 12px;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: #e7f1ff;
+  color: #1c4d90;
+  border: 1px solid #c9e0ff;
+}
+
+/* Link Below Form */
+.form-container a {
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.form-container a:hover {
+  text-decoration: underline;
+}
