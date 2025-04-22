@@ -7,7 +7,9 @@
   <title>Login Form</title>
 </head>
 <body id="loginBody">
-  <h2>Login</h2>
+  <div class="card">
+    <div class="card-body">
+      <h2>Login</h2>
   <form id="loginForm">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" required>
@@ -19,6 +21,9 @@
     <br><br>
   </form>
   <a href="/users/newuser">Click here to register a new user.</a>
+    </div>
+  </div>
+
 
   <script>
     const loginForm = document.getElementById('loginForm');

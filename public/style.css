@@ -1,3 +1,7 @@
+html{
+  font-family: sans-serif;
+}
+
 nav li {
   list-style: none;
   display: inline-block;
@@ -20,7 +24,7 @@ nav {
   .navbar {
     align-items: center;
     background: #f3eeff;
-    padding: 10px 0;
+    padding: 10px;
     position: fixed;
     width: 100%;
     top: 0;
@@ -35,6 +39,7 @@ nav {
     gap: 20px;
     padding: 20px;
     height: 100vh;
+   
   }
   
   /* Left Column - Post Feed */
@@ -134,10 +139,16 @@ nav {
     margin: auto;
   }
   
+  /* Option button */
+
+  .dropdown{
+    margin-top: 2rem;
+  }
   /* Dropdown Menu */
   .dropdown {
     position: relative;
     display: inline-block;
+    margin-bottom: 12rem;
   }
   
   .dropdown button {
@@ -234,4 +245,6 @@ text-align: center;
   /* Register Style */
 #registerBody{
   text-align: center;
+  width: auto;
+  margin-left: 43rem;
 }
